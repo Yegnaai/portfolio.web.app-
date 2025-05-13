@@ -1,68 +1,59 @@
 'use strict';
 
-// Enhanced element toggle function with smooth transitions
-const elementToggleFunc = function (elem) {
-  elem.classList.toggle("active");
-  
-  // Add smooth height transition for sidebar
-  if (elem.classList.contains('sidebar')) {
-    const height = elem.scrollHeight;
-    elem.style.maxHeight = elem.classList.contains('active') ? `${height}px` : null;
-  }
-};
 
-// Improved sidebar functionality
+
+// element toggle function
+const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
+
+
+
+// sidebar variables
 const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 
-sidebarBtn.addEventListener("click", function () {
-  elementToggleFunc(sidebar);
-  this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
-});
+// sidebar toggle functionality for mobile
+sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
 
-// Enhanced testimonials modal functionality
+
+
+// testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
 const modalContainer = document.querySelector("[data-modal-container]");
 const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
 const overlay = document.querySelector("[data-overlay]");
 
+// modal variable
 const modalImg = document.querySelector("[data-modal-img]");
 const modalTitle = document.querySelector("[data-modal-title]");
 const modalText = document.querySelector("[data-modal-text]");
 
-// Improved modal toggle with keyboard support
+// modal toggle function
 const testimonialsModalFunc = function () {
   modalContainer.classList.toggle("active");
   overlay.classList.toggle("active");
-  
-  if (modalContainer.classList.contains("active")) {
-    document.body.style.overflow = "hidden";
-    modalCloseBtn.focus();
-  } else {
-    document.body.style.overflow = "";
-  }
-};
+}
 
-// Enhanced modal accessibility
-testimonialsItem.forEach(item => {
-  item.addEventListener("click", function () {
+// add click event to all modal items
+for (let i = 0; i < testimonialsItem.length; i++) {
+
+  testimonialsItem[i].addEventListener("click", function () {
+
     modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
     modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
     modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
     modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
-    testimonialsModalFunc();
-  });
-});
 
+    testimonialsModalFunc();
+
+  });
+
+}
+
+// add click event to modal close button
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
 
-// Close modal with Escape key
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && modalContainer.classList.contains("active")) {
-    testimonialsModalFunc();
-  }
-});
+
 
 // custom select variables
 const select = document.querySelector("[data-select]");
@@ -122,49 +113,28 @@ for (let i = 0; i < filterBtn.length; i++) {
 
 }
 
-// Improved form validation
+
+
+// contact form variables
 const form = document.querySelector("[data-form]");
 const formInputs = document.querySelectorAll("[data-form-input]");
 const formBtn = document.querySelector("[data-form-btn]");
 
-// Enhanced form validation with better feedback
-formInputs.forEach(input => {
-  input.addEventListener("input", function () {
-    validateForm();
-    
-    // Show validation feedback
-    if (this.checkValidity()) {
-      this.classList.remove("invalid");
-      this.classList.add("valid");
-    } else {
-      this.classList.remove("valid");
-      this.classList.add("invalid");
-    }
-  });
-});
+// add event to all form input field
+for (let i = 0; i < formInputs.length; i++) {
+  formInputs[i].addEventListener("input", function () {
 
-function validateForm() {
-  const isValid = form.checkValidity();
-  formBtn.disabled = !isValid;
-  
-  if (isValid) {
-    formBtn.classList.add("ready");
-  } else {
-    formBtn.classList.remove("ready");
-  }
+    // check form validation
+    if (form.checkValidity()) {
+      formBtn.removeAttribute("disabled");
+    } else {
+      formBtn.setAttribute("disabled", "");
+    }
+
+  });
 }
 
-// Prevent form submission if invalid
-form.addEventListener("submit", function (e) {
-  if (!this.checkValidity()) {
-    e.preventDefault();
-    return;
-  }
-  
-  // Handle form submission
-  e.preventDefault();
-  // Add your form submission logic here
-});
+
 
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
